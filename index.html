@@ -3,48 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KJ's Cooling & Heating | 24/7 HVAC Service Phoenix AZ</title>
-  <meta name="description" content="KJ's Cooling & Heating — family & veteran-owned HVAC contractor serving Phoenix, Gilbert, Chandler, Mesa & surrounding areas. 24/7 emergency AC repair, installation, and heating service. Call (602) 795-6754." />
+  <title>Nekawa Holistic Wellness + Spa | Peoria, AZ</title>
+  <meta name="description" content="Nekawa Holistic Wellness + Spa in Peoria, Arizona. Massage, facials, microblading, lash services, sound healing, and holistic skincare. Book your appointment today." />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: {
-              900: '#001F5B',
-              800: '#002B7A',
-              700: '#003899',
-              600: '#0048C8',
-              500: '#0056E8',
-              400: '#3377FF',
-              300: '#6699FF',
-              200: '#99BBFF',
-              100: '#D6E4FF',
-              50:  '#EEF4FF',
+            olive: {
+              950: '#1A1D0E',
+              900: '#242817',
+              800: '#2E3320',
+              700: '#3A4028',
+              600: '#4D5535',
+              500: '#637043',
+              400: '#7A8A52',
+              300: '#9AAA72',
+              200: '#BCC99A',
+              100: '#DDE6C2',
+              50:  '#F2F6E8',
             },
-            heat: {
-              600: '#C4390A',
-              500: '#E8480D',
-              400: '#FF5A1F',
-              300: '#FF7A4A',
-              200: '#FFB899',
-              100: '#FFEAE0',
+            cream: {
+              DEFAULT: '#F4EDE4',
+              dark:    '#E8DDD2',
+              darker:  '#D8C9B8',
             },
-            cool: {
-              600: '#0284C7',
-              500: '#0EA5E9',
-              400: '#38BDF8',
-            },
+            rose:  { DEFAULT: '#C4907A', dark: '#A87060' },
+            sand:  { DEFAULT: '#D4C4A8', dark: '#B8A888' },
+            bark:  { DEFAULT: '#6B5744', dark: '#4A3A2E' },
           },
           fontFamily: {
-            display: ['"Barlow"', 'system-ui', 'sans-serif'],
-            body:    ['"Inter"', 'system-ui', 'sans-serif'],
+            display: ['"Playfair Display"', 'Georgia', 'serif'],
+            body:    ['"DM Sans"', 'system-ui', 'sans-serif'],
           },
+          letterSpacing: { tightest: '-0.04em', tighter: '-0.03em', tight: '-0.02em' },
+          lineHeight:    { relaxed: '1.7', loose: '1.85' },
         },
       },
     };
@@ -53,1056 +53,1012 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, sans-serif; color: #1e293b; }
-    h1,h2,h3,h4,h5 { font-family: 'Barlow', system-ui, sans-serif; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: #F4EDE4; color: #242817; }
 
-    /* sticky mobile bar */
-    .mobile-sticky { display: none; }
-    @media (max-width: 767px) {
-      .mobile-sticky { display: flex; }
-    }
-
-    /* hero gradient overlay */
-    .hero-overlay {
-      background: linear-gradient(90deg, rgba(0,31,91,0.92) 0%, rgba(0,43,122,0.75) 50%, rgba(0,31,91,0.35) 100%);
+    /* Grain texture overlay */
+    .grain::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
     }
 
-    /* card hover lift */
-    .card-lift {
-      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
-    }
-    .card-lift:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0,31,91,0.18);
-    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F4EDE4; }
+    ::-webkit-scrollbar-thumb { background: #7A8A52; border-radius: 3px; }
+
+    /* Fade-in animations */
+    .fade-up { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-in { opacity: 0; transition: opacity 0.8s ease; }
+    .fade-in.visible { opacity: 1; }
+
+    /* Service card hover */
+    .service-card { transition: transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s cubic-bezier(.22,1,.36,1); }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(36,40,23,0.18), 0 4px 16px rgba(36,40,23,0.10); }
+    .service-card img { transition: transform 0.6s cubic-bezier(.22,1,.36,1); }
+    .service-card:hover img { transform: scale(1.05); }
+
+    /* Nav scroll effect */
+    .nav-scrolled { background: rgba(26,29,14,0.97) !important; backdrop-filter: blur(12px); box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+
+    /* Button states */
+    .btn-primary { transition: transform 0.2s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease, background 0.2s ease; box-shadow: 0 0 12px rgba(122,138,82,0.30), 0 2px 8px rgba(122,138,82,0.20); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(122,138,82,0.55), 0 8px 24px rgba(122,138,82,0.30); }
+    .btn-primary:active { transform: translateY(0); box-shadow: 0 0 10px rgba(122,138,82,0.35); }
+    .btn-primary:focus-visible { outline: 2px solid #7A8A52; outline-offset: 3px; }
+
+    .btn-outline { transition: transform 0.2s cubic-bezier(.22,1,.36,1), background 0.2s ease, color 0.2s ease; }
+    .btn-outline:hover { transform: translateY(-2px); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #F4EDE4; outline-offset: 3px; }
+
+    /* Mood grid image hover */
+    .mood-img { transition: transform 0.5s cubic-bezier(.22,1,.36,1), filter 0.4s ease; overflow: hidden; }
+    .mood-img:hover img { transform: scale(1.06); }
+    .mood-img img { transition: transform 0.5s cubic-bezier(.22,1,.36,1); }
+
+    /* Testimonial card */
+    .test-card { transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease; }
+    .test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(36,40,23,0.13); }
 
     /* FAQ accordion */
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-    .faq-answer.open { max-height: 400px; }
-    .faq-toggle svg { transition: transform 0.3s ease; }
-    .faq-item.open .faq-toggle svg { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(.22,1,.36,1); }
+    .faq-answer.open { max-height: 300px; }
+    .faq-icon { transition: transform 0.3s cubic-bezier(.22,1,.36,1); }
+    .faq-icon.open { transform: rotate(45deg); }
 
-    /* section divider wave */
-    .wave-bottom {
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 100%;
-      overflow: hidden;
-      line-height: 0;
+    /* Form inputs */
+    input, select, textarea {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-
-    /* trust bar icons */
-    .trust-icon {
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.15);
-      flex-shrink: 0;
-    }
-
-    /* service card */
-    .service-card {
-      border: 1.5px solid #e2e8f0;
-      border-radius: 16px;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
-    }
-    .service-card:hover {
-      border-color: #0056E8;
-      transform: translateY(-5px);
-      box-shadow: 0 16px 36px rgba(0,86,232,0.14);
-    }
-
-    /* stat number */
-    .stat-num {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 900;
-      font-size: clamp(2.5rem, 5vw, 3.75rem);
-      line-height: 1;
-      color: #FF5A1F;
-    }
-
-    /* form inputs */
-    .form-input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    input:focus, select:focus, textarea:focus {
       outline: none;
-      background: #fff;
-    }
-    .form-input:focus {
-      border-color: #0056E8;
-      box-shadow: 0 0 0 3px rgba(0,86,232,0.12);
+      border-color: #7A8A52;
+      box-shadow: 0 0 0 3px rgba(122,138,82,0.15);
     }
 
-    /* nav scrolled */
-    .nav-scrolled {
-      box-shadow: 0 2px 24px rgba(0,31,91,0.12);
-      background: #fff !important;
-    }
+    /* Mobile menu */
+    #mobile-menu { transition: max-height 0.4s cubic-bezier(.22,1,.36,1), opacity 0.3s ease; max-height: 0; opacity: 0; overflow: hidden; }
+    #mobile-menu.open { max-height: 400px; opacity: 1; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up { animation: fadeUp 0.65s ease both; }
-    .delay-100 { animation-delay: 0.1s; }
-    .delay-200 { animation-delay: 0.2s; }
-    .delay-300 { animation-delay: 0.3s; }
-    .delay-400 { animation-delay: 0.4s; }
+    /* Star rating */
+    .stars { color: #D4A847; }
+
+    /* Section divider */
+    .divider { width: 60px; height: 2px; background: linear-gradient(90deg, #7A8A52, #C4907A); border-radius: 2px; }
   </style>
 </head>
-<body class="bg-white">
+<body class="antialiased">
 
-<!-- ===== MOBILE STICKY BAR ===== -->
-<div class="mobile-sticky fixed bottom-0 left-0 right-0 z-50 bg-brand-800 text-white items-center justify-between px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.25)]">
-  <a href="tel:6027956754" class="flex items-center gap-2 font-display font-700 text-base">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-heat-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-    (602) 795-6754
-  </a>
-  <a href="#contact" class="bg-heat-500 hover:bg-heat-600 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
-    Get Free Quote
-  </a>
-</div>
+  <!-- ─── NAVIGATION ─────────────────────────────────────────────── -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background: rgba(26,29,14,0.85); backdrop-filter: blur(8px);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="flex items-center justify-between h-18 py-4">
 
-<!-- ===== HEADER ===== -->
-<header id="header" class="fixed top-0 left-0 right-0 z-40 bg-white transition-all duration-300" style="box-shadow:0 1px 0 #e2e8f0;">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-[72px]">
-
-      <!-- Logo -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-brand-700 flex items-center justify-center flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-        </div>
-        <div>
-          <div class="font-display font-800 text-brand-900 leading-none text-lg">KJ's Cooling</div>
-          <div class="font-display text-heat-500 text-xs font-600 tracking-wide">&amp; HEATING</div>
-        </div>
-      </div>
-
-      <!-- Nav -->
-      <nav class="hidden md:flex items-center gap-7">
-        <a href="#services" class="text-slate-600 hover:text-brand-600 font-medium text-sm transition-colors">Services</a>
-        <a href="#why-us" class="text-slate-600 hover:text-brand-600 font-medium text-sm transition-colors">Why Us</a>
-        <a href="#areas" class="text-slate-600 hover:text-brand-600 font-medium text-sm transition-colors">Service Areas</a>
-        <a href="#testimonials" class="text-slate-600 hover:text-brand-600 font-medium text-sm transition-colors">Reviews</a>
-        <a href="#faq" class="text-slate-600 hover:text-brand-600 font-medium text-sm transition-colors">FAQ</a>
-      </nav>
-
-      <!-- CTA -->
-      <div class="flex items-center gap-3">
-        <a href="tel:6027956754" class="hidden md:flex items-center gap-2 text-brand-700 font-display font-700 text-base hover:text-brand-900 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-          (602) 795-6754
+        <!-- Logo -->
+        <a href="#home" class="flex flex-col leading-none group">
+          <span class="font-display text-xl font-600 text-cream tracking-tight" style="letter-spacing: -0.02em;">NEKAWA</span>
+          <span class="font-body text-[10px] text-olive-300 tracking-widest uppercase">Holistic Wellness + Spa</span>
         </a>
-        <a href="#contact" class="bg-heat-500 hover:bg-heat-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors shadow-[0_4px_14px_rgba(232,72,13,0.3)]">
-          Free Estimate
-        </a>
-        <!-- Mobile menu button -->
-        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100" aria-label="Menu">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-    </div>
 
-    <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-slate-100">
-      <div class="flex flex-col gap-3 pt-4">
-        <a href="#services" class="text-slate-700 font-medium py-1" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Services</a>
-        <a href="#why-us" class="text-slate-700 font-medium py-1" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Why Us</a>
-        <a href="#areas" class="text-slate-700 font-medium py-1" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Service Areas</a>
-        <a href="#testimonials" class="text-slate-700 font-medium py-1" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Reviews</a>
-        <a href="#faq" class="text-slate-700 font-medium py-1" onclick="document.getElementById('mobile-menu').classList.add('hidden')">FAQ</a>
-        <a href="#contact" class="text-slate-700 font-medium py-1" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact</a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- ===== HERO ===== -->
-<section class="relative min-h-screen flex items-center overflow-hidden bg-brand-900 pt-[72px]">
-  <!-- Background image -->
-  <div class="absolute inset-0">
-    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1600&q=80" alt="HVAC technician at work" class="w-full h-full object-cover object-center" />
-    <div class="hero-overlay absolute inset-0"></div>
-  </div>
-
-  <!-- Floating badge -->
-  <div class="absolute top-28 right-6 lg:right-16 bg-heat-500 text-white px-4 py-3 rounded-2xl shadow-xl text-center hidden sm:block">
-    <div class="font-display font-900 text-2xl leading-none">24/7</div>
-    <div class="text-xs font-600 tracking-wide mt-0.5">EMERGENCY<br>SERVICE</div>
-  </div>
-
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-    <div class="max-w-2xl">
-      <!-- Trust pills -->
-      <div class="flex flex-wrap gap-2 mb-6 fade-up">
-        <span class="bg-white/15 backdrop-blur-sm text-white text-xs font-600 px-3 py-1.5 rounded-full border border-white/25">🇺🇸 Veteran-Owned</span>
-        <span class="bg-white/15 backdrop-blur-sm text-white text-xs font-600 px-3 py-1.5 rounded-full border border-white/25">👨‍👩‍👧 Family Business</span>
-        <span class="bg-heat-500/90 text-white text-xs font-700 px-3 py-1.5 rounded-full">📍 Phoenix Metro Area</span>
-      </div>
-
-      <h1 class="font-display font-900 text-white leading-[1.05] mb-6 fade-up delay-100" style="font-size: clamp(2.6rem,6vw,4.5rem); letter-spacing:-0.03em;">
-        All Types of<br>
-        <span class="text-heat-300">Cooling &amp; Heating</span><br>
-        Care for Your Home
-      </h1>
-
-      <p class="text-white/80 text-lg leading-relaxed mb-8 max-w-xl fade-up delay-200">
-        Honest, affordable HVAC service from a team you can trust. We repair, install, and replace — and we're available <strong class="text-white">24 hours a day</strong>, 7 days a week.
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-4 fade-up delay-300">
-        <a href="tel:6027956754" class="flex items-center justify-center gap-3 bg-heat-500 hover:bg-heat-600 text-white px-7 py-4 rounded-xl font-display font-700 text-lg transition-all shadow-[0_6px_24px_rgba(232,72,13,0.4)] hover:shadow-[0_8px_32px_rgba(232,72,13,0.5)] hover:-translate-y-1">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-          Call (602) 795-6754
-        </a>
-        <a href="#contact" class="flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white border border-white/30 px-7 py-4 rounded-xl font-semibold text-base transition-all hover:-translate-y-1">
-          Get Free Estimate
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-      </div>
-
-      <!-- Quick trust row -->
-      <div class="flex flex-wrap gap-x-6 gap-y-2 mt-10 fade-up delay-400">
-        <div class="flex items-center gap-2 text-white/75 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          No Overtime Charges
+        <!-- Desktop nav -->
+        <div class="hidden lg:flex items-center gap-8">
+          <a href="#about"        class="font-body text-sm text-cream/80 hover:text-cream transition-colors duration-200 tracking-wide">About</a>
+          <a href="#services"     class="font-body text-sm text-cream/80 hover:text-cream transition-colors duration-200 tracking-wide">Services</a>
+          <a href="#testimonials" class="font-body text-sm text-cream/80 hover:text-cream transition-colors duration-200 tracking-wide">Testimonials</a>
+          <a href="#faq"          class="font-body text-sm text-cream/80 hover:text-cream transition-colors duration-200 tracking-wide">FAQ</a>
+          <a href="#footer" class="font-body text-sm text-cream/80 hover:text-cream transition-colors duration-200 tracking-wide">Contact</a>
         </div>
-        <div class="flex items-center gap-2 text-white/75 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          Upfront Pricing
-        </div>
-        <div class="flex items-center gap-2 text-white/75 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          Licensed &amp; Insured
-        </div>
-        <div class="flex items-center gap-2 text-white/75 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          Same-Day Service Available
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ===== TRUST BAR ===== -->
-<section class="bg-brand-800 text-white py-10">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div class="flex items-center gap-4">
-        <div class="trust-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <div>
-          <div class="font-display font-700 text-base">24/7 Emergency</div>
-          <div class="text-white/65 text-sm">Always available</div>
-        </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="trust-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-        </div>
-        <div>
-          <div class="font-display font-700 text-base">Licensed &amp; Insured</div>
-          <div class="text-white/65 text-sm">Fully certified team</div>
-        </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="trust-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-        </div>
-        <div>
-          <div class="font-display font-700 text-base">Upfront Pricing</div>
-          <div class="text-white/65 text-sm">No hidden fees</div>
-        </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <div class="trust-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-        </div>
-        <div>
-          <div class="font-display font-700 text-base">5-Star Rated</div>
-          <div class="text-white/65 text-sm">Loved locally</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== WHY CHOOSE US ===== -->
-<section id="why-us" class="py-20 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-      <!-- Image grid -->
-      <div class="relative">
-        <div class="grid grid-cols-2 gap-4">
-          <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80" alt="HVAC technician" class="w-full h-56 object-cover rounded-2xl shadow-lg" />
-          <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=80" alt="AC unit installation" class="w-full h-56 object-cover rounded-2xl shadow-lg mt-8" />
-          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Team working" class="w-full h-56 object-cover rounded-2xl shadow-lg -mt-4" />
-          <div class="bg-brand-700 rounded-2xl flex flex-col items-center justify-center p-6 mt-4">
-            <div class="text-white font-display font-900 text-5xl leading-none">15+</div>
-            <div class="text-white/80 text-sm font-medium mt-2 text-center">Years Serving Phoenix</div>
-          </div>
-        </div>
-        <!-- Floating stat -->
-        <div class="absolute -bottom-5 left-6 bg-white rounded-2xl shadow-xl px-6 py-4 border border-slate-100">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-heat-100 rounded-xl flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-heat-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            </div>
-            <div>
-              <div class="font-display font-700 text-brand-900">500+ Happy Customers</div>
-              <div class="text-slate-500 text-xs">Across the Phoenix metro</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Content -->
-      <div class="pt-8 lg:pt-0">
-        <div class="text-heat-500 font-display font-700 text-sm tracking-widest uppercase mb-3">Why Choose KJ's?</div>
-        <h2 class="font-display font-900 text-brand-900 mb-6" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-          Your Trusted HVAC Team in Phoenix
-        </h2>
-        <p class="text-slate-600 leading-relaxed mb-8">
-          We're a family- and veteran-owned business built on honesty and dependability. When your AC goes out in Arizona's 115° summer heat, you need someone you can trust to show up fast and do the job right — every time.
-        </p>
-
-        <div class="space-y-5">
-          <div class="flex gap-4">
-            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            </div>
-            <div>
-              <h4 class="font-display font-700 text-brand-900 text-base mb-1">Fast, Same-Day Response</h4>
-              <p class="text-slate-600 text-sm leading-relaxed">We prioritize urgent calls and work hard to get your system back up the same day — no waiting until next week.</p>
-            </div>
-          </div>
-          <div class="flex gap-4">
-            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-              <h4 class="font-display font-700 text-brand-900 text-base mb-1">Honest, Affordable Pricing</h4>
-              <p class="text-slate-600 text-sm leading-relaxed">No price gouging during heat waves. We quote upfront so you always know what you're paying before we start any work.</p>
-            </div>
-          </div>
-          <div class="flex gap-4">
-            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </div>
-            <div>
-              <h4 class="font-display font-700 text-brand-900 text-base mb-1">Skilled, Friendly Technicians</h4>
-              <p class="text-slate-600 text-sm leading-relaxed">Our techs are experienced, background-checked, and genuinely care about your comfort and satisfaction.</p>
-            </div>
-          </div>
-          <div class="flex gap-4">
-            <div class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            </div>
-            <div>
-              <h4 class="font-display font-700 text-brand-900 text-base mb-1">Warranty &amp; Insurance Assistance</h4>
-              <p class="text-slate-600 text-sm leading-relaxed">We help coordinate documentation for warranty claims and insurance-related HVAC work — taking that stress off your plate.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== STATS ===== -->
-<section class="bg-white py-16 border-y border-slate-100">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      <div>
-        <div class="stat-num">500+</div>
-        <div class="text-slate-500 font-medium mt-2 text-sm">Happy Customers</div>
-      </div>
-      <div>
-        <div class="stat-num">24/7</div>
-        <div class="text-slate-500 font-medium mt-2 text-sm">Emergency Service</div>
-      </div>
-      <div>
-        <div class="stat-num">15+</div>
-        <div class="text-slate-500 font-medium mt-2 text-sm">Years Experience</div>
-      </div>
-      <div>
-        <div class="stat-num">5★</div>
-        <div class="text-slate-500 font-medium mt-2 text-sm">Average Rating</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SERVICES ===== -->
-<section id="services" class="py-20 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <div class="text-heat-500 font-display font-700 text-sm tracking-widest uppercase mb-3">What We Do</div>
-      <h2 class="font-display font-900 text-brand-900 mb-4" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-        Complete HVAC Services for Phoenix Homes
-      </h2>
-      <p class="text-slate-600 leading-relaxed">From emergency repairs to full system replacements, we handle every aspect of your home's heating and cooling.</p>
-    </div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <!-- AC Repair -->
-      <div class="service-card bg-white group">
-        <div class="h-44 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=600&q=80" alt="AC repair" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent"></div>
-          <div class="absolute bottom-3 left-4">
-            <span class="bg-heat-500 text-white text-xs font-700 px-3 py-1 rounded-full">Most Requested</span>
-          </div>
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-800 text-brand-900 text-xl mb-2">AC Repair</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-4">Fast diagnosis and repair for all cooling issues — refrigerant leaks, evaporator coil problems, compressor failures, and more. We get your AC running again fast.</p>
-          <a href="#contact" class="text-brand-600 font-600 text-sm flex items-center gap-1.5 hover:gap-3 transition-all">
-            Request Service
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        <!-- CTA + Mobile toggle -->
+        <div class="flex items-center gap-4">
+          <a href="tel:6233634688" class="hidden lg:flex items-center gap-2 font-body text-sm text-olive-300 hover:text-cream transition-colors duration-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+            (623) 363-4688
           </a>
-        </div>
-      </div>
+          <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="btn-primary inline-block bg-olive-500 hover:bg-olive-400 text-cream font-body text-sm px-5 py-2.5 rounded-full" style="box-shadow: 0 2px 12px rgba(122,138,82,0.25);">Book Now</a>
 
-      <!-- Heating Repair -->
-      <div class="service-card bg-white group">
-        <div class="h-44 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80" alt="Heating repair" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent"></div>
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-800 text-brand-900 text-xl mb-2">Heating Repair</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-4">Furnace failures, heat pump issues, gas heating problems — our team troubleshoots and repairs all heating systems to keep your home warm when you need it.</p>
-          <a href="#contact" class="text-brand-600 font-600 text-sm flex items-center gap-1.5 hover:gap-3 transition-all">
-            Request Service
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- HVAC Installation -->
-      <div class="service-card bg-white group">
-        <div class="h-44 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&q=80" alt="HVAC installation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent"></div>
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-800 text-brand-900 text-xl mb-2">HVAC Installation</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-4">New construction or upgrading an existing system — we install modern, energy-efficient heating and cooling equipment sized perfectly for your home.</p>
-          <a href="#contact" class="text-brand-600 font-600 text-sm flex items-center gap-1.5 hover:gap-3 transition-all">
-            Get a Quote
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- System Replacement -->
-      <div class="service-card bg-white group">
-        <div class="h-44 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="System replacement" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent"></div>
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-800 text-brand-900 text-xl mb-2">System Replacement</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-4">Old systems drive up energy bills and break down more often. We handle complete removal and replacement with new equipment — improving comfort and efficiency.</p>
-          <a href="#contact" class="text-brand-600 font-600 text-sm flex items-center gap-1.5 hover:gap-3 transition-all">
-            Get a Quote
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Emergency Service -->
-      <div class="service-card bg-brand-800 group border-brand-700">
-        <div class="h-44 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="Emergency HVAC" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-40" />
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center">
-              <div class="text-heat-300 font-display font-900 text-5xl leading-none">24/7</div>
-              <div class="text-white font-700 text-lg mt-1">Emergency</div>
-            </div>
-          </div>
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-800 text-white text-xl mb-2">Emergency HVAC Service</h3>
-          <p class="text-white/70 text-sm leading-relaxed mb-4">AC out in the middle of summer? Heater fail overnight? We offer same-day and next-day emergency response. Call us now — we pick up every call.</p>
-          <a href="tel:6027956754" class="text-heat-300 font-600 text-sm flex items-center gap-1.5 hover:gap-3 transition-all">
-            Call Now: (602) 795-6754
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Diagnostics & Maintenance -->
-      <div class="service-card bg-white group">
-        <div class="h-44 overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1580776063979-ecd7fc1ec6b4?w=600&q=80" alt="HVAC maintenance" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent"></div>
-        </div>
-        <div class="p-6">
-          <h3 class="font-display font-800 text-brand-900 text-xl mb-2">Diagnostics &amp; Maintenance</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-4">Regular tune-ups catch small issues before they become big repairs. We inspect, clean, and optimize your system for peak performance all season long.</p>
-          <a href="#contact" class="text-brand-600 font-600 text-sm flex items-center gap-1.5 hover:gap-3 transition-all">
-            Schedule Tune-Up
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== EMERGENCY BAND ===== -->
-<section class="bg-heat-500 py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-5">
-        <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <div class="text-white">
-          <div class="font-display font-900 text-2xl leading-tight">AC Emergency? We're Available Right Now.</div>
-          <div class="text-white/80 mt-1">24/7 emergency HVAC service across Phoenix, Gilbert, Chandler &amp; Mesa</div>
-        </div>
-      </div>
-      <a href="tel:6027956754" class="flex-shrink-0 flex items-center gap-3 bg-white text-heat-600 px-8 py-4 rounded-xl font-display font-800 text-lg hover:bg-heat-50 transition-colors shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-        (602) 795-6754
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== TEAM ===== -->
-<section class="py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <div class="text-heat-500 font-display font-700 text-sm tracking-widest uppercase mb-3">Our Team</div>
-      <h2 class="font-display font-900 text-brand-900 mb-4" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-        The Hard-Working People Behind KJ's
-      </h2>
-      <p class="text-slate-600 leading-relaxed">Real people, real expertise, real commitment to your comfort. Our technicians are skilled, vetted, and proud to serve Phoenix-area homeowners.</p>
-    </div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div class="card-lift text-center bg-slate-50 rounded-2xl p-8">
-        <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-5 ring-4 ring-brand-100">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Kris" class="w-full h-full object-cover" />
-        </div>
-        <h3 class="font-display font-800 text-brand-900 text-xl mb-1">Kris</h3>
-        <div class="text-heat-500 font-600 text-sm mb-3">[Verify Title with Client]</div>
-        <p class="text-slate-600 text-sm leading-relaxed">Known for clear communication and thorough diagnostics. Customers consistently praise Kris for honest recommendations and getting the job done right.</p>
-      </div>
-      <div class="card-lift text-center bg-slate-50 rounded-2xl p-8">
-        <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-5 ring-4 ring-brand-100">
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80" alt="Robert" class="w-full h-full object-cover" />
-        </div>
-        <h3 class="font-display font-800 text-brand-900 text-xl mb-1">Robert</h3>
-        <div class="text-heat-500 font-600 text-sm mb-3">[Verify Title with Client]</div>
-        <p class="text-slate-600 text-sm leading-relaxed">Experienced HVAC professional with a reputation for friendly service and attention to detail on every installation and repair call.</p>
-      </div>
-      <div class="card-lift text-center bg-slate-50 rounded-2xl p-8">
-        <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-5 ring-4 ring-brand-100">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80" alt="Trey" class="w-full h-full object-cover" />
-        </div>
-        <h3 class="font-display font-800 text-brand-900 text-xl mb-1">Trey</h3>
-        <div class="text-heat-500 font-600 text-sm mb-3">[Verify Title with Client]</div>
-        <p class="text-slate-600 text-sm leading-relaxed">Praised by customers for being thorough, efficient, and easy to work with. Trey takes time to explain the issue and the fix before any work begins.</p>
-      </div>
-    </div>
-
-    <div class="mt-10 bg-brand-50 rounded-2xl p-6 border border-brand-100 text-center max-w-2xl mx-auto">
-      <p class="text-brand-700 text-sm font-medium">
-        <strong>Admin note:</strong> Team member photos, official titles, and bios need to be confirmed with the client before launch. The names above were referenced in public customer reviews.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== TESTIMONIALS ===== -->
-<section id="testimonials" class="py-20 bg-brand-900 relative overflow-hidden">
-  <!-- Background texture -->
-  <div class="absolute inset-0 opacity-[0.04]" style="background-image:url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"1\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"></div>
-
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <div class="text-heat-300 font-display font-700 text-sm tracking-widest uppercase mb-3">Customer Reviews</div>
-      <h2 class="font-display font-900 text-white mb-4" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-        Trusted by Phoenix-Area Homeowners
-      </h2>
-      <p class="text-white/65 leading-relaxed">Real feedback from real customers. We let our work and our people speak for themselves.</p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-7 border border-white/15 card-lift">
-        <div class="flex gap-1 mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-white/85 text-sm leading-relaxed mb-5">"My AC went out on a 110° day and KJ's had someone out within hours. Kris was professional, diagnosed the problem quickly, and had us up and running before dinner. Couldn't be more grateful!"</p>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-brand-600 flex items-center justify-center text-white font-700 text-sm">S</div>
-          <div>
-            <div class="text-white font-600 text-sm">Sarah M.</div>
-            <div class="text-white/50 text-xs">Phoenix, AZ</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-7 border border-white/15 card-lift">
-        <div class="flex gap-1 mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-white/85 text-sm leading-relaxed mb-5">"Trey came out to do our annual tune-up and was incredibly thorough. He explained everything he found, didn't push unnecessary repairs, and our system is running better than ever. Pricing was very fair."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-heat-500 flex items-center justify-center text-white font-700 text-sm">J</div>
-          <div>
-            <div class="text-white font-600 text-sm">James R.</div>
-            <div class="text-white/50 text-xs">Gilbert, AZ</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-7 border border-white/15 card-lift">
-        <div class="flex gap-1 mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-heat-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-white/85 text-sm leading-relaxed mb-5">"Used KJ's for a full system replacement. Robert walked us through every option, helped us pick the right unit for our budget, and the install was clean and professional. Would 100% recommend."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-cool-500 flex items-center justify-center text-white font-700 text-sm">M</div>
-          <div>
-            <div class="text-white font-600 text-sm">Maria L.</div>
-            <div class="text-white/50 text-xs">Chandler, AZ</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="text-center mt-10">
-      <a href="https://www.google.com/maps/search/KJ's+Cooling+%26+Heating" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white border border-white/30 px-6 py-3 rounded-xl font-medium text-sm transition-colors">
-        Read More Reviews on Google
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SERVICE AREAS ===== -->
-<section id="areas" class="py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div>
-        <div class="text-heat-500 font-display font-700 text-sm tracking-widest uppercase mb-3">Where We Serve</div>
-        <h2 class="font-display font-900 text-brand-900 mb-6" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-          Serving the Greater Phoenix Metro Area
-        </h2>
-        <p class="text-slate-600 leading-relaxed mb-8">
-          KJ's Cooling &amp; Heating serves homeowners throughout the Phoenix Valley. If you're in the area, we can help — and we're available 24 hours a day.
-        </p>
-
-        <div class="grid grid-cols-2 gap-3 mb-8">
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Phoenix</span>
-          </div>
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Gilbert</span>
-          </div>
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Chandler</span>
-          </div>
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Mesa</span>
-          </div>
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Peoria</span>
-          </div>
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Scottsdale</span>
-          </div>
-          <div class="flex items-center gap-3 bg-brand-50 rounded-xl px-4 py-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-            <span class="font-600 text-brand-900 text-sm">Tempe</span>
-          </div>
-          <div class="flex items-center gap-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl px-4 py-3">
-            <span class="text-slate-500 text-sm italic">+ More areas (verify)</span>
-          </div>
-        </div>
-
-        <a href="tel:6027956754" class="inline-flex items-center gap-3 bg-brand-700 hover:bg-brand-800 text-white px-7 py-4 rounded-xl font-display font-700 text-base transition-colors shadow-[0_6px_20px_rgba(0,56,153,0.3)]">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-          Call to Check Your Area
-        </a>
-      </div>
-
-      <!-- Map placeholder -->
-      <div class="relative h-96 lg:h-[500px] rounded-3xl overflow-hidden bg-brand-100 border border-brand-200">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d424145.7748765905!2d-112.5520296!3d33.4734172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872b12ed50a179cb%3A0x8c69c7f8354a1bac!2sPhoenix%2C%20AZ!5e0!3m2!1sen!2sus!4v1715000000000"
-          width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade" title="Service area map">
-        </iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FAQ ===== -->
-<section id="faq" class="py-20 bg-slate-50">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-14">
-      <div class="text-heat-500 font-display font-700 text-sm tracking-widest uppercase mb-3">Common Questions</div>
-      <h2 class="font-display font-900 text-brand-900 mb-4" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-        Frequently Asked Questions
-      </h2>
-    </div>
-
-    <div class="space-y-3" id="faq-list">
-
-      <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden">
-        <button class="faq-toggle w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)">
-          <span class="font-display font-700 text-brand-900 text-base pr-4">Do you really offer 24/7 emergency service?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="faq-answer">
-          <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed">Yes. We answer calls 24 hours a day, 7 days a week — including weekends and holidays. In Arizona's extreme heat, a broken AC is a safety emergency, and we treat it that way.</div>
-        </div>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden">
-        <button class="faq-toggle w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)">
-          <span class="font-display font-700 text-brand-900 text-base pr-4">How quickly can you come out?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="faq-answer">
-          <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed">For emergencies, we work hard to dispatch same-day whenever possible. For routine service and maintenance, we'll schedule a time that works for you — typically within 1–2 business days.</div>
-        </div>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden">
-        <button class="faq-toggle w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)">
-          <span class="font-display font-700 text-brand-900 text-base pr-4">Do you charge extra for nights, weekends, or holidays?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="faq-answer">
-          <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed">We believe in transparent, honest pricing. Call us to discuss your situation and we'll give you a clear quote before any work begins — no surprise fees.</div>
-        </div>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden">
-        <button class="faq-toggle w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)">
-          <span class="font-display font-700 text-brand-900 text-base pr-4">Should I repair or replace my HVAC system?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="faq-answer">
-          <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed">It depends on the age of the system and the cost of the repair. Generally, if a system is over 10–15 years old and the repair costs more than 50% of a new system, replacement is usually the smarter investment. Our team will give you an honest recommendation — we won't push you toward the more expensive option if it isn't the right choice for you.</div>
-        </div>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden">
-        <button class="faq-toggle w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)">
-          <span class="font-display font-700 text-brand-900 text-base pr-4">Can you help with warranty or insurance claims?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="faq-answer">
-          <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed">Yes — we have experience working with home warranty companies and can assist with documentation needed for insurance-related HVAC work. Call us to discuss your specific situation.</div>
-        </div>
-      </div>
-
-      <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden">
-        <button class="faq-toggle w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)">
-          <span class="font-display font-700 text-brand-900 text-base pr-4">What areas do you serve?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="faq-answer">
-          <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed">We serve Phoenix, Gilbert, Chandler, Mesa, Peoria, Scottsdale, Tempe, and the broader Phoenix metro area. If you're unsure whether we cover your location, just give us a call at (602) 795-6754.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== CONTACT / ESTIMATE FORM ===== -->
-<section id="contact" class="py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
-
-      <!-- Left: Info -->
-      <div>
-        <div class="text-heat-500 font-display font-700 text-sm tracking-widest uppercase mb-3">Get In Touch</div>
-        <h2 class="font-display font-900 text-brand-900 mb-6" style="font-size:clamp(2rem,4vw,2.75rem); letter-spacing:-0.025em; line-height:1.1;">
-          Request Your Free Estimate Today
-        </h2>
-        <p class="text-slate-600 leading-relaxed mb-10">
-          Fill out the form and we'll get back to you as soon as possible. For emergencies, please call us directly — we're available 24 hours a day.
-        </p>
-
-        <div class="space-y-6">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-600" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-            </div>
-            <div>
-              <div class="font-display font-700 text-brand-900 text-base">Phone</div>
-              <a href="tel:6027956754" class="text-heat-500 hover:text-heat-600 font-600 text-lg transition-colors">(602) 795-6754</a>
-              <div class="text-slate-500 text-sm">Available 24/7 for emergencies</div>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            </div>
-            <div>
-              <div class="font-display font-700 text-brand-900 text-base">Email</div>
-              <a href="mailto:customerservice@kjscool.com" class="text-brand-600 hover:text-brand-800 font-500 transition-colors">customerservice@kjscool.com</a>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </div>
-            <div>
-              <div class="font-display font-700 text-brand-900 text-base">Address</div>
-              <div class="text-slate-600 text-sm">20815 N 25th Pl STE 105<br>Phoenix, AZ 85050</div>
-              <div class="text-slate-400 text-xs mt-1 italic">[Verify address with client before launch]</div>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-              <div class="font-display font-700 text-brand-900 text-base">Hours</div>
-              <div class="text-slate-600 text-sm">Open 24 Hours — 7 Days a Week</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Form -->
-      <div class="bg-slate-50 rounded-3xl p-8 border border-slate-200">
-        <h3 class="font-display font-800 text-brand-900 text-xl mb-6">Request a Free Estimate</h3>
-        <form onsubmit="handleSubmit(event)" class="space-y-4">
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-600 text-slate-700 mb-1.5">First Name</label>
-              <input type="text" class="form-input" placeholder="John" required />
-            </div>
-            <div>
-              <label class="block text-sm font-600 text-slate-700 mb-1.5">Last Name</label>
-              <input type="text" class="form-input" placeholder="Smith" required />
-            </div>
-          </div>
-          <div>
-            <label class="block text-sm font-600 text-slate-700 mb-1.5">Phone Number</label>
-            <input type="tel" class="form-input" placeholder="(602) 000-0000" required />
-          </div>
-          <div>
-            <label class="block text-sm font-600 text-slate-700 mb-1.5">Email Address</label>
-            <input type="email" class="form-input" placeholder="you@example.com" />
-          </div>
-          <div>
-            <label class="block text-sm font-600 text-slate-700 mb-1.5">Service Needed</label>
-            <select class="form-input" required>
-              <option value="">Select a service...</option>
-              <option>AC Repair</option>
-              <option>Heating Repair</option>
-              <option>HVAC Installation</option>
-              <option>System Replacement</option>
-              <option>Emergency Service</option>
-              <option>Diagnostics / Maintenance</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-600 text-slate-700 mb-1.5">Describe Your Issue</label>
-            <textarea class="form-input resize-none" rows="4" placeholder="Tell us what's happening with your system..."></textarea>
-          </div>
-          <button type="submit" class="w-full bg-heat-500 hover:bg-heat-600 text-white py-4 rounded-xl font-display font-700 text-base transition-colors shadow-[0_4px_14px_rgba(232,72,13,0.35)] hover:shadow-[0_6px_20px_rgba(232,72,13,0.45)]">
-            Send Request — It's Free
+          <!-- Hamburger -->
+          <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Menu" aria-expanded="false">
+            <span class="block w-5 h-px bg-cream transition-transform duration-300" id="bar1"></span>
+            <span class="block w-5 h-px bg-cream transition-opacity duration-300" id="bar2"></span>
+            <span class="block w-5 h-px bg-cream transition-transform duration-300" id="bar3"></span>
           </button>
-          <p class="text-center text-slate-400 text-xs">By submitting, you agree to be contacted by KJ's Cooling &amp; Heating. We never sell your information.</p>
-        </form>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="lg:hidden border-t border-white/10">
+        <div class="flex flex-col gap-1 py-4">
+          <a href="#about"        class="font-body text-sm text-cream/80 hover:text-cream py-2.5 px-2 transition-colors" onclick="closeMobileMenu()">About</a>
+          <a href="#services"     class="font-body text-sm text-cream/80 hover:text-cream py-2.5 px-2 transition-colors" onclick="closeMobileMenu()">Services</a>
+          <a href="#testimonials" class="font-body text-sm text-cream/80 hover:text-cream py-2.5 px-2 transition-colors" onclick="closeMobileMenu()">Testimonials</a>
+          <a href="#faq"          class="font-body text-sm text-cream/80 hover:text-cream py-2.5 px-2 transition-colors" onclick="closeMobileMenu()">FAQ</a>
+          <a href="#footer" class="font-body text-sm text-cream/80 hover:text-cream py-2.5 px-2 transition-colors" onclick="closeMobileMenu()">Contact</a>
+          <a href="tel:6233634688" class="font-body text-sm text-olive-300 py-2.5 px-2 transition-colors">(623) 363-4688</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- ===== FOOTER ===== -->
-<footer class="bg-brand-900 text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+  <!-- ─── HERO ───────────────────────────────────────────────────── -->
+  <section id="home" class="relative min-h-screen flex items-center grain overflow-hidden" style="background: linear-gradient(135deg, #1A1D0E 0%, #2E3320 50%, #242817 100%);">
+    <!-- Radial glow -->
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(122,138,82,0.12) 0%, transparent 70%), radial-gradient(ellipse 40% 50% at 20% 80%, rgba(196,144,122,0.08) 0%, transparent 60%);"></div>
 
-      <!-- Brand -->
-      <div class="lg:col-span-2">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 w-full pt-24 pb-16">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Text -->
+        <div class="fade-up">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="divider"></div>
+            <span class="font-body text-xs text-olive-300 tracking-[0.2em] uppercase">Peoria, Arizona</span>
           </div>
-          <div>
-            <div class="font-display font-800 text-white leading-none text-lg">KJ's Cooling &amp; Heating</div>
-            <div class="text-white/50 text-xs">Family &amp; Veteran Owned</div>
+
+          <h1 class="font-display text-5xl lg:text-6xl xl:text-7xl leading-none text-cream mb-6" style="letter-spacing: -0.03em;">
+            Restore<br/>
+            <em class="italic text-olive-300">Body</em><br/>
+            And Mind
+          </h1>
+
+          <p class="font-body text-base text-cream/70 leading-relaxed mb-10 max-w-md" style="line-height: 1.75;">
+            Welcome to Nekawa Holistic Wellness + Spa — a peaceful retreat in Peoria where therapeutic bodywork, holistic healing, and beauty rituals come together to nurture your mind, body, and soul.
+          </p>
+
+          <div class="flex flex-wrap gap-4 mb-12">
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="btn-primary inline-block bg-olive-500 hover:bg-olive-400 text-cream font-body font-medium text-sm px-7 py-3.5 rounded-full" style="box-shadow: 0 4px 20px rgba(122,138,82,0.3);">
+              Book Now
+            </a>
+            <a href="#services" class="btn-outline inline-block border border-cream/30 hover:border-cream/60 hover:bg-white/5 text-cream font-body text-sm px-7 py-3.5 rounded-full">
+              View Services
+            </a>
+            <a href="tel:6233634688" class="btn-outline inline-flex items-center gap-2 border border-cream/30 hover:border-cream/60 hover:bg-white/5 text-cream/80 font-body text-sm px-6 py-3.5 rounded-full">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+              Call Now
+            </a>
+          </div>
+
+          <!-- Review badge -->
+          <div class="inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-3">
+            <div>
+              <div class="stars text-lg leading-none">★★★★★</div>
+              <div class="font-body text-xs text-cream/50 mt-0.5">43 Google Reviews</div>
+            </div>
+            <div class="w-px h-8 bg-white/15"></div>
+            <div>
+              <div class="font-display text-2xl text-cream font-600">5.0</div>
+              <div class="font-body text-xs text-cream/50">Perfect Rating</div>
+            </div>
           </div>
         </div>
-        <p class="text-white/60 text-sm leading-relaxed mb-6 max-w-sm">
-          Honest, affordable HVAC service for Phoenix-area homeowners. Available 24/7 for emergencies. Serving the Valley with pride.
+
+        <!-- Hero image collage -->
+        <div class="relative fade-in hidden lg:block">
+          <div class="relative h-[560px]">
+            <!-- Main image -->
+            <div class="absolute top-0 right-0 w-4/5 h-96 rounded-3xl overflow-hidden" style="box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.3);">
+              <img src="Images/premium_photo-1683134297492-cce5fc6dae31.avif" alt="Spa treatment" class="w-full h-full object-cover" style="filter: brightness(0.85) saturate(1.1);" />
+              <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(26,29,14,0.5) 0%, transparent 60%);"></div>
+            </div>
+            <!-- Secondary image -->
+            <div class="absolute bottom-0 left-0 w-1/2 h-56 rounded-2xl overflow-hidden border-2 border-olive-800/50" style="box-shadow: 0 16px 48px rgba(0,0,0,0.4);">
+              <img src="Images/photo-1620733723572-11c53f73a416.avif" alt="Holistic healing" class="w-full h-full object-cover" style="filter: brightness(0.85);" />
+              <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(26,29,14,0.5) 0%, transparent 60%);"></div>
+            </div>
+            <!-- Floating badge -->
+            <div class="absolute top-4 left-4 bg-olive-900/90 backdrop-blur-sm border border-olive-700/50 rounded-xl px-4 py-2.5" style="box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+              <div class="font-body text-xs text-olive-300 tracking-widest uppercase mb-0.5">Est. In</div>
+              <div class="font-display text-cream text-lg leading-none">Peoria, AZ</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+      <span class="font-body text-xs text-cream tracking-widest uppercase">Scroll</span>
+      <div class="w-px h-10 bg-gradient-to-b from-cream to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- ─── TOP SERVICES ───────────────────────────────────────────── -->
+  <section id="services" class="py-24 lg:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16 fade-up">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="divider"></div>
+            <span class="font-body text-xs text-olive-500 tracking-[0.2em] uppercase">What We Offer</span>
+          </div>
+          <h2 class="font-display text-4xl lg:text-5xl text-olive-900" style="letter-spacing: -0.03em;">Our Top Services</h2>
+        </div>
+        <p class="font-body text-sm text-bark/70 max-w-sm leading-relaxed lg:text-right" style="line-height: 1.75;">
+          Each treatment is thoughtfully crafted to restore balance, reveal radiance, and support your whole-person wellbeing.
         </p>
-        <div class="flex gap-3">
-          <a href="https://www.facebook.com/Kjscool/" target="_blank" rel="noopener" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors" aria-label="Facebook">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </div>
+
+      <!-- Service categories tabs -->
+      <div class="flex flex-wrap gap-3 mb-10 fade-up">
+        <button class="tab-btn active-tab font-body text-sm px-5 py-2 rounded-full border border-olive-500 bg-olive-500 text-cream transition-all duration-200" data-tab="all">All Services</button>
+        <button class="tab-btn font-body text-sm px-5 py-2 rounded-full border border-olive-200 text-bark hover:border-olive-400 transition-all duration-200" data-tab="massage">Massage & Bodywork</button>
+        <button class="tab-btn font-body text-sm px-5 py-2 rounded-full border border-olive-200 text-bark hover:border-olive-400 transition-all duration-200" data-tab="skincare">Skincare</button>
+        <button class="tab-btn font-body text-sm px-5 py-2 rounded-full border border-olive-200 text-bark hover:border-olive-400 transition-all duration-200" data-tab="beauty">Beauty</button>
+        <button class="tab-btn font-body text-sm px-5 py-2 rounded-full border border-olive-200 text-bark hover:border-olive-400 transition-all duration-200" data-tab="wellness">Wellness</button>
+      </div>
+
+      <!-- Services grid -->
+      <div id="services-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <!-- Massage -->
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="massage" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/massage.avif" alt="Meditation Massage" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-olive-500/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Bodywork</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Meditation Massage</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">A deeply calming massage designed to quiet the mind, ease tension, and guide you into a state of profound stillness.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="massage" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Aromatherapy.avif" alt="Aromatherapy" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-olive-500/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Bodywork</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Aromatherapy</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Therapeutic essential oil blends work with warm massage to melt stress, uplift the senses, and restore natural harmony.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="massage" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Cupping Therapy.avif" alt="Cupping Therapy" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-olive-500/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Bodywork</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Cupping Therapy</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Ancient suction-cup technique that lifts fascia, improves circulation, and provides deep relief for sore muscles.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="massage" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Therapeutic Foot Bath.avif" alt="Foot Bath" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-olive-500/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Bodywork</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Therapeutic Foot Bath</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">A grounding, restorative treatment that begins with a warming mineral foot soak to prepare the body for full relaxation.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <!-- Skincare -->
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="skincare" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Holistic Facial.avif" alt="Holistic Facial" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-rose/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Skincare</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Holistic Facial</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Custom facials that combine premium skincare with intention, leaving your skin luminous and your spirit refreshed.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="skincare" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Buccal Massage.avif" alt="Buccal Massage" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-rose/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Skincare</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Buccal Massage</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">A sculpting facial massage technique that lifts and defines facial contours while promoting deep tissue relaxation.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <!-- Beauty -->
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="beauty" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Lash Extensions.avif" alt="Lash Extensions" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-bark/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Beauty</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Lash Extensions</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Full, fluttery lashes applied with precision for a natural or dramatic look that frames your eyes beautifully.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="beauty" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Microblading.avif" alt="Microblading" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-bark/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Beauty</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Microblading</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Hair-stroke cosmetic tattooing that creates natural-looking, perfectly shaped brows tailored to your unique features.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <!-- Wellness -->
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="wellness" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Sound Healing.avif" alt="Sound Healing" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-olive-600/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Wellness</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Sound Healing</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Healing frequencies from singing bowls and resonant instruments guide the nervous system into deep restoration and peace.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="massage" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Acupressure.avif" alt="Acupressure" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-olive-500/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Bodywork</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Acupressure</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Ancient pressure-point therapy that unblocks energy channels, relieves tension, and supports the body's innate healing ability.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="skincare" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Facial Reflexology.avif" alt="Facial Reflexology" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-rose/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Skincare</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Facial Reflexology</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Precise pressure applied to facial reflex points to support organ health, relieve stress, and reveal natural radiance.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+        <div class="service-card bg-white rounded-2xl overflow-hidden cursor-default" data-category="beauty" style="box-shadow: 0 4px 20px rgba(36,40,23,0.08), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="relative h-48 overflow-hidden">
+            <img src="Images/Teeth Whitening.avif" alt="Teeth Whitening" class="w-full h-full object-cover" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(36,40,23,0.55) 0%, transparent 55%);"></div>
+            <span class="absolute top-3 right-3 bg-bark/90 text-cream font-body text-xs px-2.5 py-1 rounded-full">Beauty</span>
+          </div>
+          <div class="p-5">
+            <h3 class="font-display text-lg text-olive-900 mb-1.5">Teeth Whitening</h3>
+            <p class="font-body text-xs text-bark/70 leading-relaxed mb-4" style="line-height: 1.7;">Professional-grade whitening treatment that brightens your smile and boosts confidence in just one comfortable session.</p>
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="inline-block font-body text-xs text-olive-500 hover:text-olive-700 font-500 tracking-wide transition-colors">Book Session →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STATS ──────────────────────────────────────────────────── -->
+  <section class="py-16 grain" style="background: linear-gradient(135deg, #2E3320 0%, #1A1D0E 100%);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center fade-up">
+          <div class="font-display text-5xl lg:text-6xl text-cream mb-2" style="letter-spacing: -0.04em;">5.0</div>
+          <div class="font-body text-xs text-olive-300 tracking-widest uppercase">Star Rating</div>
+        </div>
+        <div class="text-center fade-up" style="transition-delay: 0.1s;">
+          <div class="font-display text-5xl lg:text-6xl text-cream mb-2" style="letter-spacing: -0.04em;">43+</div>
+          <div class="font-body text-xs text-olive-300 tracking-widest uppercase">Google Reviews</div>
+        </div>
+        <div class="text-center fade-up" style="transition-delay: 0.2s;">
+          <div class="font-display text-5xl lg:text-6xl text-cream mb-2" style="letter-spacing: -0.04em;">15+</div>
+          <div class="font-body text-xs text-olive-300 tracking-widest uppercase">Services Offered</div>
+        </div>
+        <div class="text-center fade-up" style="transition-delay: 0.3s;">
+          <div class="font-display text-5xl lg:text-6xl text-cream mb-2" style="letter-spacing: -0.04em;">1</div>
+          <div class="font-body text-xs text-olive-300 tracking-widest uppercase">Sanctuary to Restore</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ──────────────────────────────────────────────────── -->
+  <section id="about" class="py-24 lg:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+        <!-- Image -->
+        <div class="relative fade-in order-2 lg:order-1">
+          <div class="relative rounded-3xl overflow-hidden" style="box-shadow: 0 32px 80px rgba(36,40,23,0.18), 0 8px 24px rgba(36,40,23,0.10);">
+            <img src="Images/1.jpg" alt="Sarah - Lead Practitioner & Founder" class="w-full h-full object-cover object-top" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(26,29,14,0.5) 0%, transparent 50%);"></div>
+          </div>
+          <!-- Floating card -->
+          <div class="absolute -bottom-6 -right-4 lg:-right-8 bg-cream border border-cream-dark rounded-2xl px-6 py-4" style="box-shadow: 0 16px 48px rgba(36,40,23,0.15);">
+            <div class="font-display text-2xl text-olive-900 mb-0.5">Sarah</div>
+            <div class="font-body text-xs text-bark/70 tracking-wide">Lead Practitioner &amp; Founder</div>
+            <div class="flex mt-2 gap-0.5 stars text-sm">★★★★★</div>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <div class="fade-up order-1 lg:order-2">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="divider"></div>
+            <span class="font-body text-xs text-olive-500 tracking-[0.2em] uppercase">Our Story</span>
+          </div>
+
+          <h2 class="font-display text-4xl lg:text-5xl text-olive-900 mb-6" style="letter-spacing: -0.03em;">
+            More Than a Spa —<br/><em class="italic">A Healing Sanctuary</em>
+          </h2>
+
+          <p class="font-body text-sm text-bark/80 mb-5" style="line-height: 1.8;">
+            At Nekawa Holistic Wellness + Spa, we believe wellness is a full-body experience. Our space was created to offer a peaceful retreat where therapeutic care, holistic practices, and beauty rituals come together to nurture the mind, body, and soul.
+          </p>
+          <p class="font-body text-sm text-bark/80 mb-8" style="line-height: 1.8;">
+            Located in Peoria, Arizona, we're proud to serve the Northwest Phoenix metro community with deeply personalized care in a calming, soulful, and beautifully curated environment. Every client walks out feeling restored, renewed, and radiant.
+          </p>
+
+          <!-- Values -->
+          <div class="grid grid-cols-2 gap-4 mb-10">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-olive-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-olive-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+              </div>
+              <div>
+                <div class="font-body text-sm font-500 text-olive-900 mb-0.5">Holistic Approach</div>
+                <div class="font-body text-xs text-bark/60" style="line-height: 1.6;">Mind, body, and soul in every treatment</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-olive-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-olive-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+              </div>
+              <div>
+                <div class="font-body text-sm font-500 text-olive-900 mb-0.5">Heartfelt Care</div>
+                <div class="font-body text-xs text-bark/60" style="line-height: 1.6;">Personalized, nurturing attention always</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-olive-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-olive-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+              </div>
+              <div>
+                <div class="font-body text-sm font-500 text-olive-900 mb-0.5">Serene Ambiance</div>
+                <div class="font-body text-xs text-bark/60" style="line-height: 1.6;">A clean, calming, soothing space</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-olive-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-olive-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+              </div>
+              <div>
+                <div class="font-body text-sm font-500 text-olive-900 mb-0.5">5-Star Excellence</div>
+                <div class="font-body text-xs text-bark/60" style="line-height: 1.6;">Consistent perfection in every visit</div>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="btn-primary inline-block bg-olive-800 hover:bg-olive-700 text-cream font-body text-sm px-7 py-3.5 rounded-full" style="box-shadow: 0 4px 20px rgba(36,40,23,0.2);">
+            Book Your Session
           </a>
-          <a href="https://www.google.com/maps/search/KJ's+Cooling+%26+Heating" target="_blank" rel="noopener" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors" aria-label="Google">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SKINCARE BUNDLE HIGHLIGHT ─────────────────────────────── -->
+  <section class="py-24 grain" style="background: linear-gradient(160deg, #1A1D0E 0%, #3A4028 60%, #2E3320 100%);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+        <div class="fade-up">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="divider"></div>
+            <span class="font-body text-xs text-olive-300 tracking-[0.2em] uppercase">Featured Experience</span>
+          </div>
+          <h2 class="font-display text-4xl lg:text-5xl text-cream mb-6" style="letter-spacing: -0.03em;">
+            Holistic Skincare<br/><em class="italic text-olive-300">Wellness Bundle</em>
+          </h2>
+          <p class="font-body text-sm text-cream/70 mb-8" style="line-height: 1.8;">
+            Indulge in our signature full-wellness experience combining a custom holistic facial, facial reflexology, and a restorative aromatherapy massage — the ultimate ritual for skin, body, and spirit.
+          </p>
+
+          <ul class="space-y-3 mb-10">
+            <li class="flex items-center gap-3 font-body text-sm text-cream/80">
+              <span class="w-5 h-5 rounded-full bg-olive-500/30 border border-olive-500/50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-2.5 h-2.5 text-olive-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+              </span>
+              Customized Holistic Facial
+            </li>
+            <li class="flex items-center gap-3 font-body text-sm text-cream/80">
+              <span class="w-5 h-5 rounded-full bg-olive-500/30 border border-olive-500/50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-2.5 h-2.5 text-olive-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+              </span>
+              Facial Reflexology Treatment
+            </li>
+            <li class="flex items-center gap-3 font-body text-sm text-cream/80">
+              <span class="w-5 h-5 rounded-full bg-olive-500/30 border border-olive-500/50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-2.5 h-2.5 text-olive-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+              </span>
+              Aromatherapy Massage
+            </li>
+            <li class="flex items-center gap-3 font-body text-sm text-cream/80">
+              <span class="w-5 h-5 rounded-full bg-olive-500/30 border border-olive-500/50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-2.5 h-2.5 text-olive-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+              </span>
+              Therapeutic Foot Bath
+            </li>
+          </ul>
+
+          <div class="flex items-center gap-4">
+            <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="btn-primary inline-block bg-olive-500 hover:bg-olive-400 text-cream font-body text-sm px-7 py-3.5 rounded-full" style="box-shadow: 0 4px 20px rgba(122,138,82,0.3);">
+              Book This Bundle
+            </a>
+            <span class="font-body text-xs text-cream/40">— Pricing available upon booking</span>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <div class="relative rounded-3xl overflow-hidden" style="box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.25);">
+            <img src="Images/2.avif" alt="Holistic Skincare Bundle" class="w-full object-cover" style="filter: brightness(0.85) saturate(1.15);" />
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(26,29,14,0.6) 0%, transparent 50%);"></div>
+            <div class="absolute bottom-6 left-6 right-6">
+              <div class="bg-olive-950/80 backdrop-blur-sm border border-olive-700/30 rounded-2xl p-4">
+                <div class="font-body text-xs text-olive-300 mb-1 tracking-wide">Signature Experience</div>
+                <div class="font-display text-xl text-cream">Full Restoration Bundle</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TESTIMONIALS ───────────────────────────────────────────── -->
+  <section id="testimonials" class="py-24 lg:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+      <div class="text-center mb-16 fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="divider"></div>
+          <span class="font-body text-xs text-olive-500 tracking-[0.2em] uppercase">What Clients Say</span>
+          <div class="divider"></div>
+        </div>
+        <h2 class="font-display text-4xl lg:text-5xl text-olive-900 mb-4" style="letter-spacing: -0.03em;">Our Client Testimonials</h2>
+        <div class="flex items-center justify-center gap-3">
+          <div class="stars text-xl">★★★★★</div>
+          <span class="font-body text-sm text-bark/70">5.0 average from 43 Google reviews</span>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="test-card bg-white rounded-2xl p-6" style="box-shadow: 0 4px 20px rgba(36,40,23,0.07), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="stars text-sm mb-4">★★★★★</div>
+          <p class="font-display text-lg italic text-olive-900 mb-4 leading-snug">"Every session leaves me feeling renewed and deeply restored."</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-cream-dark">
+            <div class="w-9 h-9 rounded-full bg-olive-100 flex items-center justify-center font-display text-olive-700 font-600">A</div>
+            <div>
+              <div class="font-body text-sm font-500 text-olive-900">Verified Guest</div>
+              <div class="font-body text-xs text-bark/50">Google Review</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-card bg-white rounded-2xl p-6" style="box-shadow: 0 4px 20px rgba(36,40,23,0.07), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="stars text-sm mb-4">★★★★★</div>
+          <p class="font-display text-lg italic text-olive-900 mb-4 leading-snug">"The ambiance of the spa is very relaxing and soothing. I absolutely love love love this place!!"</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-cream-dark">
+            <div class="w-9 h-9 rounded-full bg-rose/20 flex items-center justify-center font-display text-rose-dark font-600">M</div>
+            <div>
+              <div class="font-body text-sm font-500 text-olive-900">Verified Guest</div>
+              <div class="font-body text-xs text-bark/50">Google Review</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-card bg-white rounded-2xl p-6" style="box-shadow: 0 4px 20px rgba(36,40,23,0.07), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="stars text-sm mb-4">★★★★★</div>
+          <p class="font-display text-lg italic text-olive-900 mb-4 leading-snug">"Always excellent customer service. So clean, quiet, and calming. The facials are amazing too."</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-cream-dark">
+            <div class="w-9 h-9 rounded-full bg-sand/40 flex items-center justify-center font-display text-bark font-600">J</div>
+            <div>
+              <div class="font-body text-sm font-500 text-olive-900">Verified Guest</div>
+              <div class="font-body text-xs text-bark/50">Google Review</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-card bg-white rounded-2xl p-6" style="box-shadow: 0 4px 20px rgba(36,40,23,0.07), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="stars text-sm mb-4">★★★★★</div>
+          <p class="font-display text-lg italic text-olive-900 mb-4 leading-snug">"A soothing, rejuvenating experience from beginning to end. Sarah is incredibly talented."</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-cream-dark">
+            <div class="w-9 h-9 rounded-full bg-olive-100 flex items-center justify-center font-display text-olive-700 font-600">R</div>
+            <div>
+              <div class="font-body text-sm font-500 text-olive-900">Verified Guest</div>
+              <div class="font-body text-xs text-bark/50">Google Review</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-card bg-white rounded-2xl p-6" style="box-shadow: 0 4px 20px rgba(36,40,23,0.07), 0 1px 4px rgba(36,40,23,0.05);">
+          <div class="stars text-sm mb-4">★★★★★</div>
+          <p class="font-display text-lg italic text-olive-900 mb-4 leading-snug">"The signature massage and body scrub was so soothing and rejuvenating. I will definitely be back."</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-cream-dark">
+            <div class="w-9 h-9 rounded-full bg-rose/20 flex items-center justify-center font-display text-rose-dark font-600">T</div>
+            <div>
+              <div class="font-body text-sm font-500 text-olive-900">Verified Guest</div>
+              <div class="font-body text-xs text-bark/50">Google Review</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA card -->
+        <div class="test-card rounded-2xl p-6 flex flex-col justify-center items-center text-center grain" style="background: linear-gradient(145deg, #2E3320, #1A1D0E); box-shadow: 0 4px 20px rgba(36,40,23,0.15);">
+          <div class="stars text-2xl mb-3">★★★★★</div>
+          <div class="font-display text-3xl text-cream mb-1">5.0</div>
+          <div class="font-body text-xs text-olive-300 mb-6 tracking-wide">43 Google Reviews</div>
+          <a href="https://www.google.com/maps/place/Nekawa+Holistic+Wellness+%2B+spa/@33.6230753,-112.2232849,17z/data=!4m18!1m8!3m7!1s0x872b6596647d0b5d:0x71c64b95fcbadf42!2sNekawa+Holistic+Wellness+%2B+spa!8m2!3d33.6230753!4d-112.2207046!15sCgRzcGFzWgYiBHNwYXOSAQNzcGHgAQA!16s%2Fg%2F1ptw8ykqt!3m8!1s0x872b6596647d0b5d:0x71c64b95fcbadf42!8m2!3d33.6230753!4d-112.2207046!9m1!1b1!15sCgRzcGFzWgYiBHNwYXOSAQNzcGHgAQA!16s%2Fg%2F1ptw8ykqt?entry=ttu&g_ep=EgoyMDI2MDUxMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="btn-primary inline-block bg-olive-500 hover:bg-olive-400 text-cream font-body text-xs px-5 py-2.5 rounded-full" style="box-shadow: 0 4px 16px rgba(122,138,82,0.3);">
+            Read More Reviews
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ───────────────────────────────────────────────────── -->
+  <section id="faq" class="py-24 bg-cream-dark">
+    <div class="max-w-3xl mx-auto px-6 lg:px-10">
+
+      <div class="text-center mb-12 fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="divider"></div>
+          <span class="font-body text-xs text-olive-500 tracking-[0.2em] uppercase">FAQ</span>
+          <div class="divider"></div>
+        </div>
+        <h2 class="font-display text-4xl lg:text-5xl text-olive-900" style="letter-spacing: -0.03em;">Common Questions</h2>
+      </div>
+
+      <div class="space-y-3">
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">What services do you offer?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">We offer a wide range of holistic wellness and beauty services including massage therapy (meditation, aromatherapy, acupressure, cupping), facials, buccal massage, facial reflexology, lash extensions, lash lift & tint, brow services, microblading, cosmetic tattooing, sound healing, teeth whitening, and therapeutic foot baths.</p>
+          </div>
+        </div>
+
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">How do I book an appointment?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">You can book by calling us directly at <a href="tel:6233634688" class="text-olive-600 hover:text-olive-800">(623) 363-4688</a> or by filling out our contact form below. We'll confirm your appointment and send all the details you need before your visit.</p>
+          </div>
+        </div>
+
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">What should I expect at my first visit?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">Expect a warm, welcoming, and serene environment from the moment you arrive. We'll greet you, discuss your wellness goals, and ensure your experience is fully tailored to you. Wear comfortable clothing and plan to arrive 5–10 minutes early to settle in.</p>
+          </div>
+        </div>
+
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">Do you offer customized treatments?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">Absolutely. Every treatment at Nekawa is personalized to your specific needs, skin type, and wellness goals. We never take a one-size-fits-all approach — your session is crafted uniquely for you.</p>
+          </div>
+        </div>
+
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">What is your cancellation policy?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">Please contact us directly for our current cancellation policy. We ask for as much advance notice as possible so we can accommodate other guests. <em class="text-bark/50">[Policy to be verified before publishing]</em></p>
+          </div>
+        </div>
+
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">Do you offer gift cards or packages?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">We do! Gift cards and wellness packages make a beautiful gift for yourself or someone you love. Please call or message us for current options and pricing.</p>
+          </div>
+        </div>
+
+        <div class="faq-item bg-cream rounded-xl overflow-hidden" style="box-shadow: 0 2px 10px rgba(36,40,23,0.06);">
+          <button class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left" onclick="toggleFaq(this)">
+            <span class="font-body text-sm font-500 text-olive-900">Do you offer microblading consultations?</span>
+            <span class="faq-icon text-olive-500 text-xl leading-none font-300 flex-shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="font-body text-sm text-bark/70 pb-5" style="line-height: 1.75;">Yes! For all cosmetic tattooing and microblading services, we recommend a consultation first so we can discuss your ideal shape, color, and style. Please call us to schedule your complimentary consultation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── MAP ───────────────────────────────────────────────────── -->
+  <section class="py-20 lg:py-28" style="background: #F4EDE4;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10">
+
+      <!-- Header -->
+      <div class="text-center mb-10 fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="divider"></div>
+          <span class="font-body text-xs text-olive-500 tracking-[0.2em] uppercase">Find Us</span>
+          <div class="divider"></div>
+        </div>
+        <h2 class="font-display text-4xl lg:text-5xl text-olive-900 mb-3" style="letter-spacing:-0.03em;">Come Visit Us</h2>
+        <p class="font-body text-sm text-bark/60">15262 N 75th Ave, Bldg 400 Suite #102 · Peoria, AZ 85381</p>
+      </div>
+
+      <!-- Map card -->
+      <div class="fade-up relative rounded-3xl overflow-hidden" style="box-shadow: 0 24px 80px rgba(36,40,23,0.14), 0 4px 16px rgba(36,40,23,0.08);">
+
+        <!-- Leaflet map -->
+        <div id="spa-map" style="height: 420px; width: 100%;"></div>
+
+        <!-- Bottom bar with address + button -->
+        <div class="absolute bottom-0 left-0 right-0 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4" style="background: rgba(26,29,14,0.82); backdrop-filter: blur(12px); z-index: 1000;">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-olive-500/30 border border-olive-400/40 flex items-center justify-center flex-shrink-0">
+              <svg class="w-3.5 h-3.5 text-olive-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            </div>
+            <div>
+              <div class="font-body text-xs text-cream/50 leading-none mb-0.5">Location</div>
+              <div class="font-body text-sm text-cream leading-snug">15262 N 75th Ave, Bldg 400 Suite #102, Peoria, AZ</div>
+            </div>
+          </div>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=15262+N+75th+Ave,+Peoria,+AZ+85381"
+            target="_blank"
+            rel="noopener"
+            class="btn-primary flex items-center gap-2 bg-olive-500 hover:bg-olive-400 text-cream font-body text-sm font-500 px-5 py-2.5 rounded-full flex-shrink-0"
+            style="box-shadow: 0 4px 16px rgba(122,138,82,0.4); z-index: 1001; position: relative;"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
+            Get Directions
           </a>
         </div>
       </div>
 
-      <!-- Services -->
-      <div>
-        <h4 class="font-display font-700 text-white mb-4">Services</h4>
-        <ul class="space-y-2.5">
-          <li><a href="#services" class="text-white/60 hover:text-white text-sm transition-colors">AC Repair</a></li>
-          <li><a href="#services" class="text-white/60 hover:text-white text-sm transition-colors">Heating Repair</a></li>
-          <li><a href="#services" class="text-white/60 hover:text-white text-sm transition-colors">HVAC Installation</a></li>
-          <li><a href="#services" class="text-white/60 hover:text-white text-sm transition-colors">System Replacement</a></li>
-          <li><a href="#services" class="text-white/60 hover:text-white text-sm transition-colors">Emergency Service</a></li>
-          <li><a href="#services" class="text-white/60 hover:text-white text-sm transition-colors">Diagnostics &amp; Maintenance</a></li>
-        </ul>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─────────────────────────────────────────────────── -->
+  <footer id="footer" class="grain" style="background: #0F1108;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <!-- Top -->
+      <div class="grid lg:grid-cols-4 gap-10 py-16 border-b border-white/8">
+
+        <!-- Brand -->
+        <div class="lg:col-span-2">
+          <div class="mb-5">
+            <div class="font-display text-2xl text-cream tracking-tight mb-1" style="letter-spacing: -0.02em;">NEKAWA</div>
+            <div class="font-body text-xs text-olive-400 tracking-widest uppercase">Holistic Wellness + Spa</div>
+          </div>
+          <p class="font-body text-sm text-cream/50 max-w-xs mb-6" style="line-height: 1.75;">A sanctuary for mind, body, and soul in Peoria, Arizona. Blending holistic healing, restorative massage, and beauty services in one serene space.</p>
+          <div class="flex gap-3">
+            <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-cream/40 hover:text-cream/80 hover:bg-white/10 transition-all duration-200">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-cream/40 hover:text-cream/80 hover:bg-white/10 transition-all duration-200">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick links -->
+        <div>
+          <div class="font-body text-xs text-olive-400 tracking-widest uppercase mb-4">Quick Links</div>
+          <ul class="space-y-2.5">
+            <li><a href="#about"        class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">About</a></li>
+            <li><a href="#services"     class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">Services</a></li>
+            <li><a href="#testimonials" class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">Testimonials</a></li>
+            <li><a href="#faq"          class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">FAQ</a></li>
+            <li><a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener"      class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">Book Now</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <div class="font-body text-xs text-olive-400 tracking-widest uppercase mb-4">Contact</div>
+          <ul class="space-y-3">
+            <li><a href="tel:6233634688" class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">(623) 363-4688</a></li>
+            <li><a href="mailto:hello@nekawawellness-spa.com" class="font-body text-sm text-cream/50 hover:text-cream/90 transition-colors">hello@nekawawellness-spa.com</a></li>
+            <li class="font-body text-sm text-cream/40 leading-relaxed">15262 N 75th Ave, Bldg 400<br/>Suite #102, Peoria, AZ 85381</li>
+            <li>
+              <a href="https://www.vagaro.com/nekawawellness/services" target="_blank" rel="noopener" class="btn-primary inline-block bg-olive-600 hover:bg-olive-500 text-cream font-body text-xs px-5 py-2.5 rounded-full mt-2" style="box-shadow: 0 2px 12px rgba(122,138,82,0.2);">
+                Book Now
+              </a>
+            </li>
+          </ul>
+        </div>
+
       </div>
 
-      <!-- Contact -->
-      <div>
-        <h4 class="font-display font-700 text-white mb-4">Contact</h4>
-        <ul class="space-y-3">
-          <li>
-            <a href="tel:6027956754" class="flex items-start gap-2 text-white/60 hover:text-white text-sm transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 flex-shrink-0 text-heat-300" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-              (602) 795-6754
-            </a>
-          </li>
-          <li>
-            <a href="mailto:customerservice@kjscool.com" class="flex items-start gap-2 text-white/60 hover:text-white text-sm transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 flex-shrink-0 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              customerservice@kjscool.com
-            </a>
-          </li>
-          <li>
-            <div class="flex items-start gap-2 text-white/60 text-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 flex-shrink-0 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              20815 N 25th Pl STE 105<br>Phoenix, AZ 85050
-            </div>
-          </li>
-          <li>
-            <div class="flex items-start gap-2 text-white/60 text-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 flex-shrink-0 text-heat-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Open 24 Hours / 7 Days
-            </div>
-          </li>
-        </ul>
+      <!-- Bottom -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-6">
+        <p class="font-body text-xs text-cream/25">© 2026 Nekawa Holistic Wellness + Spa. All rights reserved.</p>
+        <p class="font-body text-xs text-cream/20">Peoria, Arizona · Northwest Phoenix Metro</p>
       </div>
     </div>
+  </footer>
 
-    <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-white/40 text-sm">&copy; 2026 KJ's Cooling &amp; Heating, LLC. All rights reserved.</p>
-      <p class="text-white/30 text-xs">License #[Verify with client] | Serving Phoenix Metro Area</p>
-    </div>
-  </div>
-</footer>
+  <!-- ─── JAVASCRIPT ─────────────────────────────────────────────── -->
+  <script>
+    // ── Nav scroll ──────────────────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) navbar.classList.add('nav-scrolled');
+      else navbar.classList.remove('nav-scrolled');
+    }, { passive: true });
 
-<script>
-  // Mobile menu toggle
-  document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden');
-  });
+    // ── Mobile menu ─────────────────────────────────────────────────
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+    let menuOpen = false;
 
-  // Header scroll effect
-  window.addEventListener('scroll', function() {
-    const header = document.getElementById('header');
-    if (window.scrollY > 20) {
-      header.classList.add('nav-scrolled');
-    } else {
-      header.classList.remove('nav-scrolled');
-    }
-  });
-
-  // FAQ accordion
-  function toggleFaq(btn) {
-    const item = btn.closest('.faq-item');
-    const answer = item.querySelector('.faq-answer');
-    const isOpen = item.classList.contains('open');
-
-    // Close all
-    document.querySelectorAll('.faq-item').forEach(i => {
-      i.classList.remove('open');
-      i.querySelector('.faq-answer').classList.remove('open');
+    menuToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      menuToggle.setAttribute('aria-expanded', menuOpen);
+      bar1.style.transform = menuOpen ? 'translateY(6px) rotate(45deg)' : '';
+      bar2.style.opacity   = menuOpen ? '0' : '1';
+      bar3.style.transform = menuOpen ? 'translateY(-6px) rotate(-45deg)' : '';
     });
 
-    // Open clicked if it was closed
-    if (!isOpen) {
-      item.classList.add('open');
-      answer.classList.add('open');
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', false);
+      bar1.style.transform = '';
+      bar2.style.opacity   = '1';
+      bar3.style.transform = '';
     }
-  }
 
-  // Form submit
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]');
-    btn.textContent = '✓ Request Sent! We\'ll call you soon.';
-    btn.classList.replace('bg-heat-500', 'bg-green-600');
-    btn.classList.replace('hover:bg-heat-600', 'hover:bg-green-700');
-    btn.disabled = true;
-  }
+    // ── Services tab filter ─────────────────────────────────────────
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const serviceCards = document.querySelectorAll('#services-grid [data-category]');
 
-  // Smooth scroll for nav links
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        const offset = 80;
-        window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+
+        tabBtns.forEach(b => {
+          b.classList.remove('active-tab', 'bg-olive-500', 'text-cream', 'border-olive-500');
+          b.classList.add('border-olive-200', 'text-bark');
+        });
+        btn.classList.add('active-tab', 'bg-olive-500', 'text-cream', 'border-olive-500');
+        btn.classList.remove('border-olive-200', 'text-bark');
+
+        serviceCards.forEach(card => {
+          if (tab === 'all' || card.dataset.category === tab) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ── FAQ accordion ────────────────────────────────────────────────
+    function toggleFaq(trigger) {
+      const item   = trigger.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const icon   = trigger.querySelector('.faq-icon');
+      const isOpen = answer.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+
+      if (!isOpen) {
+        answer.classList.add('open');
+        icon.classList.add('open');
       }
+    }
+
+    // ── Intersection observer animations ────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
+
+    // ── Leaflet map ──────────────────────────────────────────────────
+    const spaLat = 33.5960, spaLng = -112.2310;
+    const spaMap = L.map('spa-map', {
+      center: [spaLat, spaLng],
+      zoom: 15,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      dragging: false,
+      touchZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      attributionControl: false,
     });
-  });
-</script>
+
+    // Clean CartoDB Positron tile layer (light, minimal, no API key)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 19,
+    }).addTo(spaMap);
+
+    // Custom branded marker
+    const markerIcon = L.divIcon({
+      className: '',
+      html: `<div style="
+        width:40px; height:40px;
+        background: #3A4028;
+        border: 3px solid #9AAA72;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        box-shadow: 0 4px 16px rgba(36,40,23,0.4);
+      "></div>`,
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    const marker = L.marker([spaLat, spaLng], { icon: markerIcon }).addTo(spaMap);
+
+    // Clicking the map opens Google Maps directions
+    spaMap.on('click', () => {
+      window.open('https://www.google.com/maps/dir/?api=1&destination=15262+N+75th+Ave,+Peoria,+AZ+85381', '_blank');
+    });
+    spaMap.getContainer().style.cursor = 'pointer';
+
+  </script>
 
 </body>
 </html>
